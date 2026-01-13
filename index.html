@@ -110,23 +110,23 @@
                 <script src="https://fibredelivery.com/6252cef5dd4129c11ac8fec2b2507d7d/invoke.js"></script>
             </div>
 
-            <div class="task-item" onclick="watchAd(2)">
-                <div><div style="font-weight: 600;">Ad Task #1</div><div style="font-size: 11px; color: var(--text-dim);">Internal View</div></div>
+            <div class="task-item" onclick="openAd('https://fibredelivery.com/fxdjxhdpk?key=0e59691dd4a074756279de200ecd4744', 2)">
+                <div><div style="font-weight: 600;">Smart Task #1</div><div style="font-size: 11px; color: var(--text-dim);">Quick Reward</div></div>
                 <div class="reward-pill">+ ₹2</div>
             </div>
 
-            <div class="task-item" onclick="openAd('https://fibredelivery.com/rj51inpba0?key=93e6799e51595c3d7148b453b49c9146', 4)">
-                <div><div style="font-weight: 600;">Ad Task #2</div><div style="font-size: 11px; color: var(--text-dim);">Premium Link</div></div>
+            <div class="task-item" onclick="openAd('https://fibredelivery.com/e9y1n3ge?key=ab5a2b9d4942ebbf088f521dd8bd0fb5', 4)">
+                <div><div style="font-weight: 600;">Smart Task #2</div><div style="font-size: 11px; color: var(--text-dim);">Premium Link</div></div>
                 <div class="reward-pill">+ ₹4</div>
             </div>
 
-            <div class="task-item" onclick="watchAd(5)">
-                <div><div style="font-weight: 600;">Ad Task #3</div><div style="font-size: 11px; color: var(--text-dim);">Overlay Ad</div></div>
+            <div class="task-item" onclick="openAd('https://fibredelivery.com/fxdjxhdpk?key=0e59691dd4a074756279de200ecd4744', 5)">
+                <div><div style="font-weight: 600;">Smart Task #3</div><div style="font-size: 11px; color: var(--text-dim);">Bonus Ad</div></div>
                 <div class="reward-pill">+ ₹5</div>
             </div>
 
-            <div class="task-item" onclick="watchAd(7)">
-                <div><div style="font-weight: 600;">Ad Task #4</div><div style="font-size: 11px; color: var(--text-dim);">Native Ad View</div></div>
+            <div class="task-item" onclick="openAd('https://fibredelivery.com/fxdjxhdpk?key=0e59691dd4a074756279de200ecd4744', 7)">
+                <div><div style="font-weight: 600;">Smart Task #4</div><div style="font-size: 11px; color: var(--text-dim);">High Payout</div></div>
                 <div class="reward-pill">+ ₹7</div>
             </div>
 
@@ -191,15 +191,6 @@
 
         function gResponse(r) { doAuth({preventDefault:()=>{}}); }
 
-        function watchAd(reward) {
-            notify("Loading Ad...");
-            setTimeout(() => {
-                bal += reward;
-                updateUI();
-                notify(`Success! ₹${reward} added.`);
-            }, 1000);
-        }
-
         function openAd(url, reward) {
             notify("Opening Smart Ad...");
             window.open(url, '_blank');
@@ -207,7 +198,7 @@
                 bal += reward;
                 updateUI();
                 notify(`Success! ₹${reward} added.`);
-            }, 1200);
+            }, 1500);
         }
 
         function updateUI() {
