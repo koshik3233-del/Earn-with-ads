@@ -3,250 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Rewards - Earn & Withdraw</title>
+    <title>Elite Earner Pro</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --primary: #6366f1;
-            --accent: #f43f5e;
-            --success: #10b981;
-            --text: #f8fafc;
+            --bg: #080a0f;
+            --surface: #12151c;
+            --primary: #7c3aed;
+            --secondary: #2dd4bf;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --danger: #ef4444;
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s ease; }
-        body { margin: 0; background: var(--bg); color: var(--text); display: flex; justify-content: center; min-height: 100vh; }
+        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { margin: 0; background: var(--bg); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- AUTH SCREEN --- */
-        #auth-screen {
-            width: 100%; max-width: 400px; padding: 40px 20px; text-align: center;
-            display: flex; flex-direction: column; justify-content: center;
+        /* --- AUTHENTICATION STYLES --- */
+        .auth-container {
+            width: 100%; max-width: 400px; padding: 40px 24px;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .hero-icon { font-size: 50px; margin-bottom: 20px; }
-        .btn-google { display: flex; justify-content: center; margin-top: 30px; }
-
-        /* --- MAIN APP SCREEN --- */
-        #app-screen { display: none; width: 100%; max-width: 450px; background: var(--bg); min-height: 100vh; position: relative; }
-
-        .header {
-            padding: 40px 20px; background: linear-gradient(to bottom, #4f46e5, var(--bg));
-            text-align: center; border-radius: 0 0 30px 30px;
+        .brand-logo {
+            width: 70px; height: 70px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 32px; font-weight: 800; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
         }
 
-        .balance-box {
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-            padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
-            margin-top: 15px;
+        .auth-card {
+            width: 100%; background: var(--surface); padding: 30px; border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
 
-        .balance-num { font-size: 48px; font-weight: 700; color: #fff; }
+        .tab-switcher { display: flex; background: #000; padding: 5px; border-radius: 12px; margin-bottom: 25px; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: none; color: var(--text-dim); cursor: pointer; font-weight: 600; border-radius: 8px; }
+        .tab-btn.active { background: var(--primary); color: white; }
 
-        /* --- TABS --- */
-        .tabs { display: flex; gap: 10px; padding: 0 20px; margin-top: -25px; }
-        .tab { 
-            flex: 1; padding: 12px; background: var(--card); border: none; border-radius: 12px;
-            color: #94a3b8; font-weight: 600; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        input, select {
+            width: 100%; padding: 14px 18px; margin-bottom: 15px; border-radius: 12px;
+            border: 1px solid #2d3748; background: #1a202c; color: white; outline: none;
         }
-        .tab.active { background: var(--primary); color: white; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2); }
 
-        /* --- SECTIONS --- */
-        .section { padding: 25px 20px; display: none; }
-        .section.active { display: block; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
-
-        /* --- ADS/EARN --- */
-        .ad-card {
-            background: var(--card); padding: 20px; border-radius: 15px;
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 15px; border: 1px solid #334155; cursor: pointer;
-        }
-        .ad-card:hover { border-color: var(--primary); transform: scale(1.02); }
-        .reward-badge { background: rgba(16, 185, 129, 0.2); color: var(--success); padding: 5px 12px; border-radius: 8px; font-weight: 700; }
-
-        /* --- WITHDRAWAL FORM --- */
-        .withdraw-container { background: var(--card); padding: 20px; border-radius: 20px; }
-        select, input {
-            width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px;
-            border: 1px solid #334155; background: #0f172a; color: white; outline: none;
-        }
-        .info-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: #94a3b8; }
-        .btn-action {
+        .btn-main {
             width: 100%; padding: 16px; background: var(--primary); color: white;
-            border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer;
+            border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 10px;
         }
-        .btn-action:disabled { opacity: 0.5; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3); }
+
+        .google-box { margin-top: 20px; width: 100%; display: flex; justify-content: center; }
+
+        /* --- APP MAIN STYLES --- */
+        #app-screen { display: none; width: 100%; max-width: 450px; background: var(--bg); position: relative; }
+
+        .app-header {
+            padding: 40px 24px 60px; background: linear-gradient(180deg, #1e1b4b 0%, var(--bg) 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center;
+        }
+
+        .balance-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            padding: 24px; border-radius: 24px; backdrop-filter: blur(10px); margin-top: 20px;
+        }
+        .balance-val { font-size: 44px; font-weight: 800; color: var(--secondary); margin: 10px 0; }
+
+        .nav-bar { display: flex; gap: 10px; padding: 0 24px; margin-top: -25px; }
+        .nav-item { flex: 1; padding: 14px; background: var(--surface); border: none; border-radius: 16px; color: var(--text-dim); font-weight: 700; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .nav-item.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .content-area { padding: 30px 24px; display: none; }
+        .content-area.active { display: block; animation: fadeIn 0.5s ease; }
+
+        /* --- ADS & TASKS --- */
+        .banner-promo {
+            background: linear-gradient(90deg, #7c3aed, #4f46e5); padding: 20px;
+            border-radius: 20px; margin-bottom: 25px; text-align: center; cursor: pointer;
+        }
+
+        .task-item {
+            background: var(--surface); padding: 18px; border-radius: 18px;
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.03); cursor: pointer;
+        }
+        .task-item:hover { background: #1a1f29; border-color: var(--primary); }
+        .reward-pill { background: rgba(45, 212, 191, 0.1); color: var(--secondary); padding: 6px 12px; border-radius: 10px; font-weight: 800; font-size: 14px; }
+
+        /* --- WITHDRAWAL INFO --- */
+        .fee-box { background: #1a1b23; padding: 15px; border-radius: 12px; margin: 20px 0; }
+        .fee-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; color: var(--text-dim); }
 
         #toast {
-            visibility: hidden; min-width: 250px; background: #fff; color: #000;
-            text-align: center; border-radius: 10px; padding: 16px; position: fixed;
-            z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%); font-weight: 600;
+            visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: white; color: black; padding: 12px 24px; border-radius: 50px; font-weight: 700; z-index: 1000;
         }
-        #toast.show { visibility: visible; animation: fadein 0.5s; }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        #toast.show { visibility: visible; animation: slideUp 0.3s; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="auth-screen">
-        <div class="hero-icon">💎</div>
-        <h1>Elite Rewards</h1>
-        <p style="color: #94a3b8;">Earn ₹1 per ad viewing. Simple, Fast, Secure.</p>
-        
-        <div class="btn-google">
-            <div id="g_id_onload"
-                 data-client_id="446243892340-vahr8f27dtmaiiid3afme2i6qe8v2qri.apps.googleusercontent.com"
-                 data-callback="handleCredentialResponse">
+    <div id="auth-screen" class="auth-container">
+        <div class="brand-logo">₹</div>
+        <h2 style="margin: 0 0 10px;">Elite Earner Pro</h2>
+        <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 30px;">Premium Ad-Revenue Sharing</p>
+
+        <div class="auth-card">
+            <div class="tab-switcher">
+                <button id="loginTab" class="tab-btn active" onclick="setAuthMode('login')">Login</button>
+                <button id="signupTab" class="tab-btn" onclick="setAuthMode('signup')">Signup</button>
             </div>
-            <div class="g_id_signin" data-type="standard"></div>
+
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <input type="email" id="userEmail" placeholder="Email Address" required>
+                <input type="password" id="userPass" placeholder="Password" required>
+                <div id="signupOnly" style="display: none;">
+                    <input type="text" id="userName" placeholder="Full Name">
+                </div>
+                <button type="submit" class="btn-main" id="submitBtn">Login Account</button>
+            </form>
+
+            <div style="margin: 20px 0; text-align: center; color: #444; font-size: 12px;">OR CONTINUE WITH</div>
+            
+            <div class="google-box">
+                <div id="g_id_onload"
+                     data-client_id="446243892340-vahr8f27dtmaiiid3afme2i6qe8v2qri.apps.googleusercontent.com"
+                     data-callback="handleGoogleResponse">
+                </div>
+                <div class="g_id_signin" data-type="standard"></div>
+            </div>
         </div>
-        <p style="font-size: 11px; color: #475569; margin-top: 40px;">Demo mode: Login is required to save balance.</p>
     </div>
 
     <div id="app-screen">
-        <div class="header">
-            <span id="user-email" style="font-size: 12px; color: #cbd5e1;">user@gmail.com</span>
-            <div class="balance-box">
-                <div style="font-size: 14px; color: #cbd5e1;">Available for Withdrawal</div>
-                <div class="balance-num">₹<span id="mainBalance">0.00</span></div>
+        <div class="app-header">
+            <div style="font-size: 14px; color: var(--text-dim);">Member: <span id="profileEmail" style="color: white;">user@gmail.com</span></div>
+            <div class="balance-card">
+                <div style="font-size: 14px; font-weight: 600;">Current Balance</div>
+                <div class="balance-val">₹<span id="mainBalance">0.00</span></div>
+                <div style="font-size: 11px; color: var(--text-dim);">Updated just now</div>
             </div>
         </div>
 
-        <div class="tabs">
-            <button class="tab active" onclick="showSection('earn', this)">EARN</button>
-            <button class="tab" onclick="showSection('withdraw', this)">WALLET</button>
+        <div class="nav-bar">
+            <button class="nav-item active" onclick="showPage('earn', this)">EARN</button>
+            <button class="nav-item" onclick="showPage('withdraw', this)">WALLET</button>
         </div>
 
-        <div id="earn-section" class="section active">
-            <div class="ad-card" onclick="earn(1)">
-                <div>
-                    <div style="font-weight: 600;">Standard Video Ad</div>
-                    <div style="font-size: 12px; color: #94a3b8;">Watch for 15s</div>
-                </div>
-                <div class="reward-badge">+ ₹1</div>
+        <div id="page-earn" class="content-area active">
+            <div class="banner-promo" onclick="watchAd('Banner Ad')">
+                <h3 style="margin: 0;">PREMIUM BANNER</h3>
+                <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.8;">Tap to earn ₹1.00 instantly</p>
             </div>
-            <div class="ad-card" onclick="earn(2)">
-                <div><div style="font-weight: 600;">Premium Ad Slot</div></div>
-                <div class="reward-badge">+ ₹1</div>
+
+            <div class="task-item" onclick="watchAd('Ad 1')">
+                <div><div style="font-weight: 600;">Video Stream 01</div><div style="font-size: 12px; color: var(--text-dim);">High Priority</div></div>
+                <div class="reward-pill">+ ₹1</div>
             </div>
-            <div class="ad-card" onclick="earn(3)">
-                <div><div style="font-weight: 600;">Sponsor Visit</div></div>
-                <div class="reward-badge">+ ₹1</div>
+            <div class="task-item" onclick="watchAd('Ad 2')">
+                <div><div style="font-weight: 600;">Video Stream 02</div><div style="font-size: 12px; color: var(--text-dim);">Sponsor Clip</div></div>
+                <div class="reward-pill">+ ₹1</div>
             </div>
-            <div class="ad-card" onclick="earn(4)">
-                <div><div style="font-weight: 600;">Discovery Task</div></div>
-                <div class="reward-badge">+ ₹1</div>
+            <div class="task-item" onclick="watchAd('Ad 3')">
+                <div><div style="font-weight: 600;">Video Stream 03</div><div style="font-size: 12px; color: var(--text-dim);">Short Ad</div></div>
+                <div class="reward-pill">+ ₹1</div>
             </div>
-            <div class="ad-card" onclick="earn(5)">
-                <div><div style="font-weight: 600;">Daily Bonus Ad</div></div>
-                <div class="reward-badge">+ ₹1</div>
+            <div class="task-item" onclick="watchAd('Ad 4')">
+                <div><div style="font-weight: 600;">Video Stream 04</div><div style="font-size: 12px; color: var(--text-dim);">App Install Ad</div></div>
+                <div class="reward-pill">+ ₹1</div>
+            </div>
+            <div class="task-item" onclick="watchAd('Ad 5')">
+                <div><div style="font-weight: 600;">Video Stream 05</div><div style="font-size: 12px; color: var(--text-dim);">Daily Reward</div></div>
+                <div class="reward-pill">+ ₹1</div>
             </div>
         </div>
 
-        <div id="withdraw-section" class="section">
-            <div class="withdraw-container">
-                <label style="font-size: 12px; color: #94a3b8;">SELECT PAYMENT MODE</label>
-                <select id="payMode" onchange="toggleFields()">
-                    <option value="upi">UPI (PhonePe / GPay / Paytm)</option>
-                    <option value="bank">Direct Bank Transfer (IMPS)</option>
+        <div id="page-withdraw" class="content-area">
+            <div style="background: var(--surface); padding: 24px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05);">
+                <label style="font-size: 12px; font-weight: 700; color: var(--primary);">PAYMENT METHOD</label>
+                <select id="payMethod" onchange="togglePayUI()">
+                    <option value="upi">UPI (GPay, PhonePe, Paytm)</option>
+                    <option value="bank">Bank Transfer (IMPS)</option>
                 </select>
 
-                <div id="upi-fields">
-                    <input type="text" id="upiId" placeholder="Enter UPI ID (e.g., name@okaxis)">
+                <div id="upiUI">
+                    <input type="text" id="upiId" placeholder="UPI VPA (e.g. name@apl)">
                 </div>
 
-                <div id="bank-fields" style="display: none;">
-                    <input type="text" id="bankAcc" placeholder="Account Number">
-                    <input type="text" id="bankIfsc" placeholder="IFSC Code">
-                    <input type="text" id="bankName" placeholder="Account Holder Name">
+                <div id="bankUI" style="display: none;">
+                    <input type="text" id="accNum" placeholder="Account Number">
+                    <input type="text" id="ifsc" placeholder="IFSC Code">
+                    <input type="text" id="accName" placeholder="Account Holder Name">
                 </div>
 
-                <input type="number" id="withAmount" placeholder="Amount (₹100 - ₹2000)" oninput="calc()">
+                <label style="font-size: 12px; font-weight: 700; color: var(--primary);">WITHDRAW AMOUNT</label>
+                <input type="number" id="withAmt" placeholder="Min ₹100 - Max ₹2000" oninput="runCalc()">
 
-                <div style="background: #0f172a; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                    <div class="info-row"><span>Admin Fee (3%):</span><span id="feeTxt">₹0.00</span></div>
-                    <div class="info-row" style="color: white; font-weight: 700;"><span>Total Payout:</span><span id="payTxt">₹0.00</span></div>
+                <div class="fee-box">
+                    <div class="fee-row"><span>Admin Processing Fee (3%)</span><span id="feeLabel">₹0.00</span></div>
+                    <div class="fee-row" style="color: white; font-weight: 800; border-top: 1px solid #333; padding-top: 8px; margin-top: 8px;">
+                        <span>Total Payout</span><span id="payLabel">₹0.00</span>
+                    </div>
                 </div>
 
-                <button class="btn-action" onclick="submitWithdrawal()">WITHDRAW FUNDS</button>
+                <button class="btn-main" onclick="executeWithdraw()">Send to Account</button>
             </div>
         </div>
     </div>
 
-    <div id="toast">Message</div>
+    <div id="toast">Notification</div>
 
     <script>
-        let balance = parseFloat(localStorage.getItem('savedBalance')) || 0;
+        let currentBalance = parseFloat(localStorage.getItem('userBal')) || 0;
+        let authMode = 'login';
 
         // --- AUTH LOGIC ---
-        function handleCredentialResponse(response) {
-            // In a real app, you'd verify the JWT token on your server
-            console.log("Encoded JWT ID token: " + response.credential);
-            
-            // For this UI demo, we transition to the app
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('app-screen').style.display = 'block';
-            updateUI();
-            showToast("Welcome! Start earning now.");
+        function setAuthMode(mode) {
+            authMode = mode;
+            document.getElementById('loginTab').classList.toggle('active', mode === 'login');
+            document.getElementById('signupTab').classList.toggle('active', mode === 'signup');
+            document.getElementById('signupOnly').style.display = mode === 'signup' ? 'block' : 'none';
+            document.getElementById('submitBtn').innerText = mode === 'login' ? 'Login Account' : 'Create Account';
         }
 
-        // --- EARN LOGIC ---
-        function earn(id) {
-            showToast("Loading Ad #" + id + "...");
+        function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('userEmail').value;
+            // Simulated validation
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('app-screen').style.display = 'block';
+            document.getElementById('profileEmail').innerText = email;
+            updateUI();
+            notify("Welcome back!");
+        }
+
+        function handleGoogleResponse(res) {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('app-screen').style.display = 'block';
+            document.getElementById('profileEmail').innerText = "Google User";
+            updateUI();
+            notify("Google Sign-in Successful!");
+        }
+
+        // --- CORE APP LOGIC ---
+        function watchAd(name) {
+            notify(`Opening ${name}...`);
             setTimeout(() => {
-                balance += 1;
+                currentBalance += 1.0;
                 updateUI();
-                showToast("Success! ₹1.00 added.");
+                notify("₹1.00 rewarded!");
             }, 1000);
         }
 
         function updateUI() {
-            document.getElementById('mainBalance').innerText = balance.toFixed(2);
-            localStorage.setItem('savedBalance', balance);
+            document.getElementById('mainBalance').innerText = currentBalance.toFixed(2);
+            localStorage.setItem('userBal', currentBalance);
         }
 
-        // --- SECTION LOGIC ---
-        function showSection(name, btn) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(name + '-section').classList.add('active');
+        function showPage(page, btn) {
+            document.querySelectorAll('.content-area').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
             btn.classList.add('active');
         }
 
-        function toggleFields() {
-            const mode = document.getElementById('payMode').value;
-            document.getElementById('upi-fields').style.display = mode === 'upi' ? 'block' : 'none';
-            document.getElementById('bank-fields').style.display = mode === 'bank' ? 'block' : 'none';
+        // --- WITHDRAWAL ---
+        function togglePayUI() {
+            const m = document.getElementById('payMethod').value;
+            document.getElementById('upiUI').style.display = m === 'upi' ? 'block' : 'none';
+            document.getElementById('bankUI').style.display = m === 'bank' ? 'block' : 'none';
         }
 
-        // --- WITHDRAWAL LOGIC ---
-        function calc() {
-            const val = parseFloat(document.getElementById('withAmount').value) || 0;
+        function runCalc() {
+            const val = parseFloat(document.getElementById('withAmt').value) || 0;
             const fee = val * 0.03;
-            document.getElementById('feeTxt').innerText = "₹" + fee.toFixed(2);
-            document.getElementById('payTxt').innerText = "₹" + (val - fee).toFixed(2);
+            document.getElementById('feeLabel').innerText = "₹" + fee.toFixed(2);
+            document.getElementById('payLabel').innerText = "₹" + (val - fee).toFixed(2);
         }
 
-        function submitWithdrawal() {
-            const val = parseFloat(document.getElementById('withAmount').value);
-            if(isNaN(val) || val < 100 || val > 2000) return showToast("Limit: ₹100 - ₹2000");
-            if(val > balance) return showToast("Insufficient Balance!");
+        function executeWithdraw() {
+            const val = parseFloat(document.getElementById('withAmt').value);
+            if(isNaN(val) || val < 100 || val > 2000) return notify("Range: ₹100 - ₹2000");
+            if(val > currentBalance) return notify("Insufficient Funds!");
 
-            showToast("Verifying Details...");
+            notify("Verifying with Bank...");
             setTimeout(() => {
-                balance -= val;
+                currentBalance -= val;
                 updateUI();
-                document.getElementById('withAmount').value = "";
-                calc();
-                showToast("Withdrawal Requested Successfully!");
+                document.getElementById('withAmt').value = "";
+                runCalc();
+                notify("Withdrawal Successful!");
             }, 2000);
         }
 
-        function showToast(m) {
+        function notify(msg) {
             const t = document.getElementById('toast');
-            t.innerText = m;
+            t.innerText = msg;
             t.className = "show";
             setTimeout(() => t.className = "", 3000);
         }
