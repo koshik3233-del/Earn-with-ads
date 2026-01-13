@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Earner Pro</title>
+    <title>Elite Earner Pro - High Rewards</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -14,202 +14,128 @@
             --secondary: #2dd4bf;
             --text-main: #ffffff;
             --text-dim: #94a3b8;
-            --danger: #ef4444;
         }
 
-        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { margin: 0; background: var(--bg); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.3s ease; }
+        body { margin: 0; background: var(--bg); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; }
 
-        /* --- AUTHENTICATION STYLES --- */
-        .auth-container {
-            width: 100%; max-width: 400px; padding: 40px 24px;
-            display: flex; flex-direction: column; align-items: center;
-        }
+        /* --- AUTH SCREEN --- */
+        .auth-container { width: 100%; max-width: 400px; padding: 40px 24px; text-align: center; }
+        .auth-card { background: var(--surface); padding: 30px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
+        .tab-switcher { display: flex; background: #000; padding: 5px; border-radius: 12px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: none; color: var(--text-dim); cursor: pointer; font-weight: 600; }
+        .tab-btn.active { background: var(--primary); color: white; border-radius: 8px; }
 
-        .brand-logo {
-            width: 70px; height: 70px; background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            font-size: 32px; font-weight: 800; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
-        }
+        input, select { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #2d3748; background: #1a202c; color: white; outline: none; }
+        .btn-main { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
 
-        .auth-card {
-            width: 100%; background: var(--surface); padding: 30px; border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-        }
-
-        .tab-switcher { display: flex; background: #000; padding: 5px; border-radius: 12px; margin-bottom: 25px; }
-        .tab-btn { flex: 1; padding: 10px; border: none; background: none; color: var(--text-dim); cursor: pointer; font-weight: 600; border-radius: 8px; }
-        .tab-btn.active { background: var(--primary); color: white; }
-
-        input, select {
-            width: 100%; padding: 14px 18px; margin-bottom: 15px; border-radius: 12px;
-            border: 1px solid #2d3748; background: #1a202c; color: white; outline: none;
-        }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2); }
-
-        .btn-main {
-            width: 100%; padding: 16px; background: var(--primary); color: white;
-            border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 10px;
-        }
-        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3); }
-
-        .google-box { margin-top: 20px; width: 100%; display: flex; justify-content: center; }
-
-        /* --- APP MAIN STYLES --- */
-        #app-screen { display: none; width: 100%; max-width: 450px; background: var(--bg); position: relative; }
-
-        .app-header {
-            padding: 40px 24px 60px; background: linear-gradient(180deg, #1e1b4b 0%, var(--bg) 100%);
-            border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center;
-        }
-
-        .balance-card {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            padding: 24px; border-radius: 24px; backdrop-filter: blur(10px); margin-top: 20px;
-        }
-        .balance-val { font-size: 44px; font-weight: 800; color: var(--secondary); margin: 10px 0; }
+        /* --- MAIN APP SCREEN --- */
+        #app-screen { display: none; width: 100%; max-width: 450px; background: var(--bg); min-height: 100vh; position: relative; }
+        .app-header { padding: 40px 24px 60px; background: linear-gradient(180deg, #1e1b4b 0%, var(--bg) 100%); text-align: center; }
+        .balance-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 24px; border-radius: 24px; backdrop-filter: blur(10px); margin-top: 20px; }
+        .balance-val { font-size: 44px; font-weight: 800; color: var(--secondary); }
 
         .nav-bar { display: flex; gap: 10px; padding: 0 24px; margin-top: -25px; }
         .nav-item { flex: 1; padding: 14px; background: var(--surface); border: none; border-radius: 16px; color: var(--text-dim); font-weight: 700; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
-        .nav-item.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .nav-item.active { background: var(--primary); color: white; }
 
         .content-area { padding: 30px 24px; display: none; }
-        .content-area.active { display: block; animation: fadeIn 0.5s ease; }
+        .content-area.active { display: block; }
 
-        /* --- ADS & TASKS --- */
-        .banner-promo {
-            background: linear-gradient(90deg, #7c3aed, #4f46e5); padding: 20px;
-            border-radius: 20px; margin-bottom: 25px; text-align: center; cursor: pointer;
-        }
-
+        /* --- UPDATED TASK LIST --- */
         .task-item {
-            background: var(--surface); padding: 18px; border-radius: 18px;
+            background: var(--surface); padding: 20px; border-radius: 18px;
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.03); cursor: pointer;
+            margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.03); cursor: pointer;
         }
-        .task-item:hover { background: #1a1f29; border-color: var(--primary); }
-        .reward-pill { background: rgba(45, 212, 191, 0.1); color: var(--secondary); padding: 6px 12px; border-radius: 10px; font-weight: 800; font-size: 14px; }
+        .task-item:hover { border-color: var(--primary); background: #1a1f29; }
+        .reward-pill { background: rgba(45, 212, 191, 0.1); color: var(--secondary); padding: 8px 15px; border-radius: 12px; font-weight: 800; font-size: 16px; }
 
-        /* --- WITHDRAWAL INFO --- */
+        /* --- WITHDRAWAL --- */
         .fee-box { background: #1a1b23; padding: 15px; border-radius: 12px; margin: 20px 0; }
-        .fee-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; color: var(--text-dim); }
+        .fee-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-dim); margin-bottom: 5px; }
 
-        #toast {
-            visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: white; color: black; padding: 12px 24px; border-radius: 50px; font-weight: 700; z-index: 1000;
-        }
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 24px; border-radius: 50px; font-weight: 700; z-index: 1000; }
         #toast.show { visibility: visible; animation: slideUp 0.3s; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="auth-screen" class="auth-container">
-        <div class="brand-logo">₹</div>
-        <h2 style="margin: 0 0 10px;">Elite Earner Pro</h2>
-        <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 30px;">Premium Ad-Revenue Sharing</p>
+        <h2 style="margin-bottom: 10px;">Elite Earner Pro</h2>
+        <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 30px;">Login to start earning high rewards</p>
 
         <div class="auth-card">
             <div class="tab-switcher">
-                <button id="loginTab" class="tab-btn active" onclick="setAuthMode('login')">Login</button>
-                <button id="signupTab" class="tab-btn" onclick="setAuthMode('signup')">Signup</button>
+                <button id="lTab" class="tab-btn active" onclick="setMode('login')">Login</button>
+                <button id="sTab" class="tab-btn" onclick="setMode('signup')">Signup</button>
             </div>
-
-            <form id="authForm" onsubmit="handleAuth(event)">
-                <input type="email" id="userEmail" placeholder="Email Address" required>
-                <input type="password" id="userPass" placeholder="Password" required>
-                <div id="signupOnly" style="display: none;">
-                    <input type="text" id="userName" placeholder="Full Name">
-                </div>
-                <button type="submit" class="btn-main" id="submitBtn">Login Account</button>
+            <form onsubmit="doAuth(event)">
+                <input type="email" id="email" placeholder="Email Address" required>
+                <input type="password" id="pass" placeholder="Password" required>
+                <button type="submit" class="btn-main" id="authBtn">Login Account</button>
             </form>
-
-            <div style="margin: 20px 0; text-align: center; color: #444; font-size: 12px;">OR CONTINUE WITH</div>
-            
-            <div class="google-box">
-                <div id="g_id_onload"
-                     data-client_id="446243892340-vahr8f27dtmaiiid3afme2i6qe8v2qri.apps.googleusercontent.com"
-                     data-callback="handleGoogleResponse">
-                </div>
-                <div class="g_id_signin" data-type="standard"></div>
-            </div>
+            <div style="margin: 20px 0; font-size: 12px; color: #444;">OR</div>
+            <div id="g_id_onload" data-client_id="446243892340-vahr8f27dtmaiiid3afme2i6qe8v2qri.apps.googleusercontent.com" data-callback="gResponse"></div>
+            <div class="g_id_signin" data-type="standard"></div>
         </div>
     </div>
 
     <div id="app-screen">
         <div class="app-header">
-            <div style="font-size: 14px; color: var(--text-dim);">Member: <span id="profileEmail" style="color: white;">user@gmail.com</span></div>
+            <div style="font-size: 14px; color: var(--text-dim);">Balance Overview</div>
             <div class="balance-card">
-                <div style="font-size: 14px; font-weight: 600;">Current Balance</div>
-                <div class="balance-val">₹<span id="mainBalance">0.00</span></div>
-                <div style="font-size: 11px; color: var(--text-dim);">Updated just now</div>
+                <div class="balance-val">₹<span id="bal">0.00</span></div>
+                <div style="font-size: 12px; color: var(--text-dim); margin-top: 5px;">Min. Withdrawal ₹100</div>
             </div>
         </div>
 
         <div class="nav-bar">
-            <button class="nav-item active" onclick="showPage('earn', this)">EARN</button>
-            <button class="nav-item" onclick="showPage('withdraw', this)">WALLET</button>
+            <button class="nav-item active" onclick="showP('earn', this)">EARN</button>
+            <button class="nav-item" onclick="showP('wallet', this)">WALLET</button>
         </div>
 
-        <div id="page-earn" class="content-area active">
-            <div class="banner-promo" onclick="watchAd('Banner Ad')">
-                <h3 style="margin: 0;">PREMIUM BANNER</h3>
-                <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.8;">Tap to earn ₹1.00 instantly</p>
+        <div id="p-earn" class="content-area active">
+            <div class="task-item" onclick="watchAd(2)">
+                <div><div style="font-weight: 600;">Ad Video #01</div><div style="font-size: 12px; color: var(--text-dim);">Instant Reward</div></div>
+                <div class="reward-pill">+ ₹2</div>
             </div>
-
-            <div class="task-item" onclick="watchAd('Ad 1')">
-                <div><div style="font-weight: 600;">Video Stream 01</div><div style="font-size: 12px; color: var(--text-dim);">High Priority</div></div>
-                <div class="reward-pill">+ ₹1</div>
+            <div class="task-item" onclick="watchAd(4)">
+                <div><div style="font-weight: 600;">Ad Video #02</div><div style="font-size: 12px; color: var(--text-dim);">High Priority</div></div>
+                <div class="reward-pill">+ ₹4</div>
             </div>
-            <div class="task-item" onclick="watchAd('Ad 2')">
-                <div><div style="font-weight: 600;">Video Stream 02</div><div style="font-size: 12px; color: var(--text-dim);">Sponsor Clip</div></div>
-                <div class="reward-pill">+ ₹1</div>
+            <div class="task-item" onclick="watchAd(5)">
+                <div><div style="font-weight: 600;">Ad Video #03</div><div style="font-size: 12px; color: var(--text-dim);">Premium Slot</div></div>
+                <div class="reward-pill">+ ₹5</div>
             </div>
-            <div class="task-item" onclick="watchAd('Ad 3')">
-                <div><div style="font-weight: 600;">Video Stream 03</div><div style="font-size: 12px; color: var(--text-dim);">Short Ad</div></div>
-                <div class="reward-pill">+ ₹1</div>
+            <div class="task-item" onclick="watchAd(7)">
+                <div><div style="font-weight: 600;">Ad Video #04</div><div style="font-size: 12px; color: var(--text-dim);">Mega Reward</div></div>
+                <div class="reward-pill">+ ₹7</div>
             </div>
-            <div class="task-item" onclick="watchAd('Ad 4')">
-                <div><div style="font-weight: 600;">Video Stream 04</div><div style="font-size: 12px; color: var(--text-dim);">App Install Ad</div></div>
-                <div class="reward-pill">+ ₹1</div>
-            </div>
-            <div class="task-item" onclick="watchAd('Ad 5')">
-                <div><div style="font-weight: 600;">Video Stream 05</div><div style="font-size: 12px; color: var(--text-dim);">Daily Reward</div></div>
-                <div class="reward-pill">+ ₹1</div>
+            <div class="task-item" onclick="watchAd(8)">
+                <div><div style="font-weight: 600;">Ad Video #05</div><div style="font-size: 12px; color: var(--text-dim);">Ultra Ad Slot</div></div>
+                <div class="reward-pill">+ ₹8</div>
             </div>
         </div>
 
-        <div id="page-withdraw" class="content-area">
-            <div style="background: var(--surface); padding: 24px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05);">
-                <label style="font-size: 12px; font-weight: 700; color: var(--primary);">PAYMENT METHOD</label>
-                <select id="payMethod" onchange="togglePayUI()">
-                    <option value="upi">UPI (GPay, PhonePe, Paytm)</option>
-                    <option value="bank">Bank Transfer (IMPS)</option>
+        <div id="p-wallet" class="content-area">
+            <div style="background: var(--surface); padding: 20px; border-radius: 20px;">
+                <select id="method" onchange="toggleW()">
+                    <option value="upi">UPI (GPay/PhonePe)</option>
+                    <option value="bank">Bank Transfer</option>
                 </select>
-
-                <div id="upiUI">
-                    <input type="text" id="upiId" placeholder="UPI VPA (e.g. name@apl)">
+                <div id="uUI"><input type="text" id="vpa" placeholder="UPI ID (e.g. name@okaxis)"></div>
+                <div id="bUI" style="display:none">
+                    <input type="text" placeholder="Account Number">
+                    <input type="text" placeholder="IFSC Code">
                 </div>
-
-                <div id="bankUI" style="display: none;">
-                    <input type="text" id="accNum" placeholder="Account Number">
-                    <input type="text" id="ifsc" placeholder="IFSC Code">
-                    <input type="text" id="accName" placeholder="Account Holder Name">
-                </div>
-
-                <label style="font-size: 12px; font-weight: 700; color: var(--primary);">WITHDRAW AMOUNT</label>
-                <input type="number" id="withAmt" placeholder="Min ₹100 - Max ₹2000" oninput="runCalc()">
-
+                <input type="number" id="amt" placeholder="Amount (100 - 2000)" oninput="calcW()">
                 <div class="fee-box">
-                    <div class="fee-row"><span>Admin Processing Fee (3%)</span><span id="feeLabel">₹0.00</span></div>
-                    <div class="fee-row" style="color: white; font-weight: 800; border-top: 1px solid #333; padding-top: 8px; margin-top: 8px;">
-                        <span>Total Payout</span><span id="payLabel">₹0.00</span>
-                    </div>
+                    <div class="fee-row"><span>Admin Fee (3%)</span><span id="fL">₹0.00</span></div>
+                    <div class="fee-row" style="color:white; font-weight:800; padding-top:10px;"><span>Total Payout</span><span id="pL">₹0.00</span></div>
                 </div>
-
-                <button class="btn-main" onclick="executeWithdraw()">Send to Account</button>
+                <button class="btn-main" onclick="requestW()">Withdraw Funds</button>
             </div>
         </div>
     </div>
@@ -217,94 +143,73 @@
     <div id="toast">Notification</div>
 
     <script>
-        let currentBalance = parseFloat(localStorage.getItem('userBal')) || 0;
-        let authMode = 'login';
+        let bal = parseFloat(localStorage.getItem('myBal')) || 0;
 
-        // --- AUTH LOGIC ---
-        function setAuthMode(mode) {
-            authMode = mode;
-            document.getElementById('loginTab').classList.toggle('active', mode === 'login');
-            document.getElementById('signupTab').classList.toggle('active', mode === 'signup');
-            document.getElementById('signupOnly').style.display = mode === 'signup' ? 'block' : 'none';
-            document.getElementById('submitBtn').innerText = mode === 'login' ? 'Login Account' : 'Create Account';
+        function setMode(m) {
+            document.getElementById('lTab').classList.toggle('active', m==='login');
+            document.getElementById('sTab').classList.toggle('active', m==='signup');
+            document.getElementById('authBtn').innerText = m==='login' ? 'Login Account' : 'Create Account';
         }
 
-        function handleAuth(e) {
+        function doAuth(e) {
             e.preventDefault();
-            const email = document.getElementById('userEmail').value;
-            // Simulated validation
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('app-screen').style.display = 'block';
-            document.getElementById('profileEmail').innerText = email;
+            document.getElementById('auth-screen').style.display='none';
+            document.getElementById('app-screen').style.display='block';
             updateUI();
-            notify("Welcome back!");
         }
 
-        function handleGoogleResponse(res) {
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('app-screen').style.display = 'block';
-            document.getElementById('profileEmail').innerText = "Google User";
-            updateUI();
-            notify("Google Sign-in Successful!");
-        }
+        function gResponse(r) { doAuth({preventDefault:()=>{}}); }
 
-        // --- CORE APP LOGIC ---
-        function watchAd(name) {
-            notify(`Opening ${name}...`);
+        function watchAd(reward) {
+            notify("Loading Ad...");
             setTimeout(() => {
-                currentBalance += 1.0;
+                bal += reward;
                 updateUI();
-                notify("₹1.00 rewarded!");
+                notify(`Success! ₹${reward} added.`);
             }, 1000);
         }
 
         function updateUI() {
-            document.getElementById('mainBalance').innerText = currentBalance.toFixed(2);
-            localStorage.setItem('userBal', currentBalance);
+            document.getElementById('bal').innerText = bal.toFixed(2);
+            localStorage.setItem('myBal', bal);
         }
 
-        function showPage(page, btn) {
-            document.querySelectorAll('.content-area').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('page-' + page).classList.add('active');
-            btn.classList.add('active');
+        function showP(p, b) {
+            document.querySelectorAll('.content-area').forEach(x => x.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+            document.getElementById('p-'+p).classList.add('active');
+            b.classList.add('active');
         }
 
-        // --- WITHDRAWAL ---
-        function togglePayUI() {
-            const m = document.getElementById('payMethod').value;
-            document.getElementById('upiUI').style.display = m === 'upi' ? 'block' : 'none';
-            document.getElementById('bankUI').style.display = m === 'bank' ? 'block' : 'none';
+        function toggleW() {
+            const m = document.getElementById('method').value;
+            document.getElementById('uUI').style.display = m==='upi'?'block':'none';
+            document.getElementById('bUI').style.display = m==='bank'?'block':'none';
         }
 
-        function runCalc() {
-            const val = parseFloat(document.getElementById('withAmt').value) || 0;
-            const fee = val * 0.03;
-            document.getElementById('feeLabel').innerText = "₹" + fee.toFixed(2);
-            document.getElementById('payLabel').innerText = "₹" + (val - fee).toFixed(2);
+        function calcW() {
+            const v = parseFloat(document.getElementById('amt').value) || 0;
+            document.getElementById('fL').innerText = "₹" + (v*0.03).toFixed(2);
+            document.getElementById('pL').innerText = "₹" + (v - (v*0.03)).toFixed(2);
         }
 
-        function executeWithdraw() {
-            const val = parseFloat(document.getElementById('withAmt').value);
-            if(isNaN(val) || val < 100 || val > 2000) return notify("Range: ₹100 - ₹2000");
-            if(val > currentBalance) return notify("Insufficient Funds!");
-
-            notify("Verifying with Bank...");
+        function requestW() {
+            const v = parseFloat(document.getElementById('amt').value);
+            if(v < 100 || v > 2000) return notify("Limit: ₹100 - ₹2000");
+            if(v > bal) return notify("Insufficient Balance!");
+            notify("Processing...");
             setTimeout(() => {
-                currentBalance -= val;
-                updateUI();
-                document.getElementById('withAmt').value = "";
-                runCalc();
-                notify("Withdrawal Successful!");
+                bal -= v; updateUI(); 
+                document.getElementById('amt').value=""; calcW();
+                notify("Withdrawal Requested!");
             }, 2000);
         }
 
-        function notify(msg) {
+        function notify(m) {
             const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.className = "show";
+            t.innerText = m; t.className = "show";
             setTimeout(() => t.className = "", 3000);
         }
     </script>
 </body>
-                </html>
+</html>
