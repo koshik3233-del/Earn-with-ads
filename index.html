@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Earner Pro - High Rewards</title>
+    <title>Elite Earner Pro - Max Rewards</title>
+    
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script src="https://fibredelivery.com/a0/b4/94/a0b494d7cc4fa28d316d6dde610c7a73.js"></script>
+
     <style>
         :root {
             --bg: #080a0f;
@@ -17,9 +21,9 @@
         }
 
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.3s ease; }
-        body { margin: 0; background: var(--bg); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; }
+        body { margin: 0; background: var(--bg); color: var(--text-main); display: flex; justify-content: center; min-height: 100vh; padding-bottom: 50px;}
 
-        /* --- AUTH SCREEN --- */
+        /* --- AUTH --- */
         .auth-container { width: 100%; max-width: 400px; padding: 40px 24px; text-align: center; }
         .auth-card { background: var(--surface); padding: 30px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
         .tab-switcher { display: flex; background: #000; padding: 5px; border-radius: 12px; margin-bottom: 20px; }
@@ -29,54 +33,55 @@
         input, select { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #2d3748; background: #1a202c; color: white; outline: none; }
         .btn-main { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
 
-        /* --- MAIN APP SCREEN --- */
+        /* --- DASHBOARD --- */
         #app-screen { display: none; width: 100%; max-width: 450px; background: var(--bg); min-height: 100vh; position: relative; }
-        .app-header { padding: 40px 24px 60px; background: linear-gradient(180deg, #1e1b4b 0%, var(--bg) 100%); text-align: center; }
-        .balance-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 24px; border-radius: 24px; backdrop-filter: blur(10px); margin-top: 20px; }
-        .balance-val { font-size: 44px; font-weight: 800; color: var(--secondary); }
+        .app-header { padding: 30px 24px; background: linear-gradient(180deg, #1e1b4b 0%, var(--bg) 100%); text-align: center; }
+        .balance-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 24px; backdrop-filter: blur(10px); }
+        .balance-val { font-size: 40px; font-weight: 800; color: var(--secondary); }
 
-        .nav-bar { display: flex; gap: 10px; padding: 0 24px; margin-top: -25px; }
-        .nav-item { flex: 1; padding: 14px; background: var(--surface); border: none; border-radius: 16px; color: var(--text-dim); font-weight: 700; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .nav-bar { display: flex; gap: 8px; padding: 0 20px; margin-top: -20px; }
+        .nav-item { flex: 1; padding: 12px; background: var(--surface); border: none; border-radius: 12px; color: var(--text-dim); font-weight: 700; cursor: pointer; font-size: 11px;}
         .nav-item.active { background: var(--primary); color: white; }
 
-        .content-area { padding: 30px 24px; display: none; }
+        .content-area { padding: 20px 24px; display: none; }
         .content-area.active { display: block; }
 
-        /* --- UPDATED TASK LIST --- */
+        /* --- AD CONTAINERS --- */
+        .ad-box { background: #000; padding: 10px; border-radius: 15px; margin-bottom: 20px; overflow: hidden; text-align: center;}
+
+        /* --- TASK LIST --- */
         .task-item {
-            background: var(--surface); padding: 20px; border-radius: 18px;
+            background: var(--surface); padding: 18px; border-radius: 18px;
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.03); cursor: pointer;
+            margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.03); cursor: pointer;
         }
-        .task-item:hover { border-color: var(--primary); background: #1a1f29; }
-        .reward-pill { background: rgba(45, 212, 191, 0.1); color: var(--secondary); padding: 8px 15px; border-radius: 12px; font-weight: 800; font-size: 16px; }
+        .task-item:hover { border-color: var(--primary); }
+        .reward-pill { background: rgba(45, 212, 191, 0.1); color: var(--secondary); padding: 6px 12px; border-radius: 10px; font-weight: 800; }
 
-        /* --- WITHDRAWAL --- */
-        .fee-box { background: #1a1b23; padding: 15px; border-radius: 12px; margin: 20px 0; }
-        .fee-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-dim); margin-bottom: 5px; }
+        /* --- REFERRAL --- */
+        .refer-card { background: linear-gradient(135deg, #1e293b, #0f172a); padding: 20px; border-radius: 20px; border: 1px dashed var(--primary); text-align: center;}
+        .code-box { background: #000; padding: 10px; border-radius: 10px; margin: 15px 0; color: var(--secondary); font-weight: 800; letter-spacing: 2px;}
 
-        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 24px; border-radius: 50px; font-weight: 700; z-index: 1000; }
+        #toast { visibility: hidden; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: white; color: black; padding: 12px 24px; border-radius: 50px; font-weight: 700; z-index: 1000; }
         #toast.show { visibility: visible; animation: slideUp 0.3s; }
-        @keyframes slideUp { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        @keyframes slideUp { from { bottom: 0; opacity: 0; } to { bottom: 80px; opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="auth-screen" class="auth-container">
-        <h2 style="margin-bottom: 10px;">Elite Earner Pro</h2>
-        <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 30px;">Login to start earning high rewards</p>
-
+        <h2 style="margin-bottom: 20px;">Elite Earner Pro</h2>
         <div class="auth-card">
             <div class="tab-switcher">
                 <button id="lTab" class="tab-btn active" onclick="setMode('login')">Login</button>
                 <button id="sTab" class="tab-btn" onclick="setMode('signup')">Signup</button>
             </div>
             <form onsubmit="doAuth(event)">
-                <input type="email" id="email" placeholder="Email Address" required>
-                <input type="password" id="pass" placeholder="Password" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Password" required>
                 <button type="submit" class="btn-main" id="authBtn">Login Account</button>
             </form>
-            <div style="margin: 20px 0; font-size: 12px; color: #444;">OR</div>
+            <div style="margin: 15px 0; font-size: 11px; color: #444;">OR</div>
             <div id="g_id_onload" data-client_id="446243892340-vahr8f27dtmaiiid3afme2i6qe8v2qri.apps.googleusercontent.com" data-callback="gResponse"></div>
             <div class="g_id_signin" data-type="standard"></div>
         </div>
@@ -84,38 +89,68 @@
 
     <div id="app-screen">
         <div class="app-header">
-            <div style="font-size: 14px; color: var(--text-dim);">Balance Overview</div>
             <div class="balance-card">
                 <div class="balance-val">₹<span id="bal">0.00</span></div>
-                <div style="font-size: 12px; color: var(--text-dim); margin-top: 5px;">Min. Withdrawal ₹100</div>
+                <div style="font-size: 11px; color: var(--text-dim);">Ready to Withdraw</div>
             </div>
         </div>
 
         <div class="nav-bar">
             <button class="nav-item active" onclick="showP('earn', this)">EARN</button>
+            <button class="nav-item" onclick="showP('refer', this)">REFER</button>
             <button class="nav-item" onclick="showP('wallet', this)">WALLET</button>
         </div>
 
         <div id="p-earn" class="content-area active">
+            
+            <div class="ad-box">
+                <script>
+                    atOptions = { 'key' : '6252cef5dd4129c11ac8fec2b2507d7d', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
+                </script>
+                <script src="https://fibredelivery.com/6252cef5dd4129c11ac8fec2b2507d7d/invoke.js"></script>
+            </div>
+
             <div class="task-item" onclick="watchAd(2)">
-                <div><div style="font-weight: 600;">Ad Video #01</div><div style="font-size: 12px; color: var(--text-dim);">Instant Reward</div></div>
+                <div><div style="font-weight: 600;">Ad Task #1</div><div style="font-size: 11px; color: var(--text-dim);">Internal View</div></div>
                 <div class="reward-pill">+ ₹2</div>
             </div>
-            <div class="task-item" onclick="watchAd(4)">
-                <div><div style="font-weight: 600;">Ad Video #02</div><div style="font-size: 12px; color: var(--text-dim);">High Priority</div></div>
+
+            <div class="task-item" onclick="openAd('https://fibredelivery.com/rj51inpba0?key=93e6799e51595c3d7148b453b49c9146', 4)">
+                <div><div style="font-weight: 600;">Ad Task #2</div><div style="font-size: 11px; color: var(--text-dim);">Premium Link</div></div>
                 <div class="reward-pill">+ ₹4</div>
             </div>
+
             <div class="task-item" onclick="watchAd(5)">
-                <div><div style="font-weight: 600;">Ad Video #03</div><div style="font-size: 12px; color: var(--text-dim);">Premium Slot</div></div>
+                <div><div style="font-weight: 600;">Ad Task #3</div><div style="font-size: 11px; color: var(--text-dim);">Overlay Ad</div></div>
                 <div class="reward-pill">+ ₹5</div>
             </div>
+
             <div class="task-item" onclick="watchAd(7)">
-                <div><div style="font-weight: 600;">Ad Video #04</div><div style="font-size: 12px; color: var(--text-dim);">Mega Reward</div></div>
+                <div><div style="font-weight: 600;">Ad Task #4</div><div style="font-size: 11px; color: var(--text-dim);">Native Ad View</div></div>
                 <div class="reward-pill">+ ₹7</div>
             </div>
-            <div class="task-item" onclick="watchAd(8)">
-                <div><div style="font-weight: 600;">Ad Video #05</div><div style="font-size: 12px; color: var(--text-dim);">Ultra Ad Slot</div></div>
+
+            <div class="ad-box">
+                <script async="async" data-cfasync="false" src="https://fibredelivery.com/417f3708acd3d2351c8b9339aee5a21d/invoke.js"></script>
+                <div id="container-417f3708acd3d2351c8b9339aee5a21d"></div>
+            </div>
+
+            <div class="task-item" onclick="openAd('https://fibredelivery.com/gis1kthm?key=d0fab118945d798071d876eefdd4895d', 8)">
+                <div><div style="font-weight: 600;">Ad Task #5</div><div style="font-size: 11px; color: var(--text-dim);">Smart Link</div></div>
                 <div class="reward-pill">+ ₹8</div>
+            </div>
+        </div>
+
+        <div id="p-refer" class="content-area">
+            <div class="refer-card">
+                <h3>Invite & Earn ₹50</h3>
+                <p style="font-size: 12px; color: var(--text-dim);">Share your code. Earn ₹50 after your friend watches 10 ads!</p>
+                <div class="code-box" id="myCode">ELITE5502</div>
+                <button class="btn-main" onclick="copyCode()" style="padding: 10px;">Copy Referral Code</button>
+            </div>
+            <div style="margin-top: 20px; font-size: 12px; color: var(--text-dim);">
+                <p>• Per refer earn ₹50</p>
+                <p>• Condition: Friend must watch 10 ads</p>
             </div>
         </div>
 
@@ -125,22 +160,18 @@
                     <option value="upi">UPI (GPay/PhonePe)</option>
                     <option value="bank">Bank Transfer</option>
                 </select>
-                <div id="uUI"><input type="text" id="vpa" placeholder="UPI ID (e.g. name@okaxis)"></div>
-                <div id="bUI" style="display:none">
-                    <input type="text" placeholder="Account Number">
-                    <input type="text" placeholder="IFSC Code">
-                </div>
-                <input type="number" id="amt" placeholder="Amount (100 - 2000)" oninput="calcW()">
-                <div class="fee-box">
-                    <div class="fee-row"><span>Admin Fee (3%)</span><span id="fL">₹0.00</span></div>
-                    <div class="fee-row" style="color:white; font-weight:800; padding-top:10px;"><span>Total Payout</span><span id="pL">₹0.00</span></div>
-                </div>
-                <button class="btn-main" onclick="requestW()">Withdraw Funds</button>
+                <div id="uUI"><input type="text" placeholder="UPI ID (e.g. name@okaxis)"></div>
+                <div id="bUI" style="display:none"><input type="text" placeholder="Account Number"><input type="text" placeholder="IFSC Code"></div>
+                <input type="number" id="amt" placeholder="Amount (₹100 - ₹2000)" oninput="calcW()">
+                <div style="font-size: 14px; font-weight: 700;">Payout: <span id="pL" style="color:var(--secondary)">₹0.00</span> (3% Fee)</div>
+                <button class="btn-main" onclick="requestW()" style="margin-top: 20px;">Withdraw Now</button>
             </div>
         </div>
     </div>
 
     <div id="toast">Notification</div>
+
+    <script src="https://fibredelivery.com/20/83/0f/20830fdf2ef9fbb6bfb99e9be2453d32.js"></script>
 
     <script>
         let bal = parseFloat(localStorage.getItem('myBal')) || 0;
@@ -148,7 +179,7 @@
         function setMode(m) {
             document.getElementById('lTab').classList.toggle('active', m==='login');
             document.getElementById('sTab').classList.toggle('active', m==='signup');
-            document.getElementById('authBtn').innerText = m==='login' ? 'Login Account' : 'Create Account';
+            document.getElementById('authBtn').innerText = m==='login' ? 'Login' : 'Signup';
         }
 
         function doAuth(e) {
@@ -167,6 +198,16 @@
                 updateUI();
                 notify(`Success! ₹${reward} added.`);
             }, 1000);
+        }
+
+        function openAd(url, reward) {
+            notify("Opening Smart Ad...");
+            window.open(url, '_blank');
+            setTimeout(() => {
+                bal += reward;
+                updateUI();
+                notify(`Success! ₹${reward} added.`);
+            }, 1200);
         }
 
         function updateUI() {
@@ -189,20 +230,23 @@
 
         function calcW() {
             const v = parseFloat(document.getElementById('amt').value) || 0;
-            document.getElementById('fL').innerText = "₹" + (v*0.03).toFixed(2);
             document.getElementById('pL').innerText = "₹" + (v - (v*0.03)).toFixed(2);
         }
 
         function requestW() {
             const v = parseFloat(document.getElementById('amt').value);
-            if(v < 100 || v > 2000) return notify("Limit: ₹100 - ₹2000");
-            if(v > bal) return notify("Insufficient Balance!");
+            if(v < 100 || v > 2000) return notify("Min ₹100 required");
+            if(v > bal) return notify("Insufficient Funds!");
             notify("Processing...");
             setTimeout(() => {
                 bal -= v; updateUI(); 
-                document.getElementById('amt').value=""; calcW();
-                notify("Withdrawal Requested!");
+                document.getElementById('amt').value="";
+                notify("Withdrawal Successful!");
             }, 2000);
+        }
+
+        function copyCode() {
+            notify("Referral Code Copied!");
         }
 
         function notify(m) {
@@ -212,4 +256,4 @@
         }
     </script>
 </body>
-</html>
+                    </html>
